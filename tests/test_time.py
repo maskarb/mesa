@@ -39,10 +39,10 @@ class MockAgent(Agent):
     def stage_one(self):
         if self.model.enable_kill_other_agent:
             self.kill_other_agent()
-        self.model.log.append(self.unique_id + "_1")
+        self.model.log.append(f"{self.unique_id}_1")
 
     def stage_two(self):
-        self.model.log.append(self.unique_id + "_2")
+        self.model.log.append(f"{self.unique_id}_2")
 
     def advance(self):
         self.advances += 1

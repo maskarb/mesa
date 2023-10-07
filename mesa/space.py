@@ -278,31 +278,29 @@ class _Grid:
             x_range = range(x - radius, x + radius + 1)
             y_range = range(y - radius, y + radius + 1)
 
-            for new_x in x_range:
-                for new_y in y_range:
-                    if not moore and abs(new_x - x) + abs(new_y - y) > radius:
-                        continue
+            for new_x, new_y in itertools.product(x_range, y_range):
+                if not moore and abs(new_x - x) + abs(new_y - y) > radius:
+                    continue
 
-                    neighborhood[(new_x, new_y)] = True
+                neighborhood[(new_x, new_y)] = True
 
         else:
             # If the radius is larger than the distance from the borders, we
             # must use a slower method, that takes into account the borders
             # and the torus property.
-            for dx in range(-radius, radius + 1):
-                for dy in range(-radius, radius + 1):
-                    if not moore and abs(dx) + abs(dy) > radius:
-                        continue
+            for dx, dy in itertools.product(range(-radius, radius + 1), range(-radius, radius + 1)):
+                if not moore and abs(dx) + abs(dy) > radius:
+                    continue
 
-                    new_x = x + dx
-                    new_y = y + dy
+                new_x = x + dx
+                new_y = y + dy
 
-                    if self.torus:
-                        new_x %= self.width
-                        new_y %= self.height
+                if self.torus:
+                    new_x %= self.width
+                    new_y %= self.height
 
-                    if not self.out_of_bounds((new_x, new_y)):
-                        neighborhood[(new_x, new_y)] = True
+                if not self.out_of_bounds((new_x, new_y)):
+                    neighborhood[(new_x, new_y)] = True
 
         if not include_center:
             neighborhood.pop(pos, None)
@@ -908,10 +906,9 @@ class ContinuousSpace:
         dists = deltas[:, 0] ** 2 + deltas[:, 1] ** 2
 
         (idxs,) = np.where(dists <= radius**2)
-        neighbors = [
+        return [
             self._index_to_agent[x] for x in idxs if include_center or dists[x] > 0
         ]
-        return neighbors
 
     def get_heading(
         self, pos_1: FloatCoordinate, pos_2: FloatCoordinate
@@ -976,10 +973,7 @@ class ContinuousSpace:
         else:
             x = self.x_min + ((pos[0] - self.x_min) % self.width)
             y = self.y_min + ((pos[1] - self.y_min) % self.height)
-            if isinstance(pos, tuple):
-                return (x, y)
-            else:
-                return np.array((x, y))
+            return (x, y) if isinstance(pos, tuple) else np.array((x, y))
 
     def out_of_bounds(self, pos: FloatCoordinate) -> bool:
         """Check if a point is out of bounds."""

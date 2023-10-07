@@ -257,9 +257,9 @@ def make_space(model, agent_portrayal):
                     if "color" in data:
                         c.append(data["color"])
         out = {"x": x, "y": y}
-        if len(s) > 0:
+        if s:
             out["s"] = s
-        if len(c) > 0:
+        if c:
             out["c"] = c
         return out
 

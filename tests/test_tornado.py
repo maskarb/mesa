@@ -9,8 +9,7 @@ from mesa.visualization.ModularVisualization import ModularServer
 
 class TestServer(AsyncHTTPTestCase):
     def get_app(self):
-        app = ModularServer(Model, [])
-        return app
+        return ModularServer(Model, [])
 
     def test_homepage(self):
         response = self.fetch("/")
@@ -18,7 +17,7 @@ class TestServer(AsyncHTTPTestCase):
 
     @tornado.testing.gen_test
     def test_websocket(self):
-        ws_url = "ws://localhost:" + str(self.get_http_port()) + "/ws"
+        ws_url = f"ws://localhost:{str(self.get_http_port())}/ws"
         ws_client = yield tornado.websocket.websocket_connect(ws_url)
 
         # Now we can run a test on the WebSocket.

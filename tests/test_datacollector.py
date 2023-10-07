@@ -70,9 +70,8 @@ class MockModel(Model):
     def test_model_calc_comp(self, input1, input2):
         if input2 > 0:
             return (self.model_val * input1) / input2
-        else:
-            assert ValueError
-            return None
+        assert ValueError
+        return None
 
     def step(self):
         self.schedule.step()
