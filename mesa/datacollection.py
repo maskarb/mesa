@@ -235,12 +235,11 @@ class DataCollector:
         all_records = itertools.chain.from_iterable(self._agent_records.values())
         rep_names = list(self.agent_reporters)
 
-        df = pd.DataFrame.from_records(
+        return pd.DataFrame.from_records(
             data=all_records,
             columns=["Step", "AgentID", *rep_names],
             index=["Step", "AgentID"],
         )
-        return df
 
     def get_table_dataframe(self, table_name):
         """Create a pandas DataFrame from a particular table.

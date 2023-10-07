@@ -111,8 +111,7 @@ def _make_model_kwargs(
                 all_values = [(param, values)]
         parameter_list.append(all_values)
     all_kwargs = itertools.product(*parameter_list)
-    kwargs_list = [dict(kwargs) for kwargs in all_kwargs]
-    return kwargs_list
+    return [dict(kwargs) for kwargs in all_kwargs]
 
 
 def _model_run_func(
